@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 助理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cactus+Classical+Serif&family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+  
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="global.css">
+  
+  <!-- Component Styles -->
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- Scripts -->
+  <script src="global.js" defer></script>
+  <script src="js/components.js" defer></script>
+</head>
+<body>
+<!-- Header Component -->
+<div id="header-container"></div>
+
+<div class="page-container">
+  <section class="main-layout">
+    <!-- Sidebar Component -->
+    <div id="sidebar-container"></div>
+    <main class="content-area">
+      <div class="content-header">
+        <h1 class="content-title">AI 助理列表</h1>
+        <button class="new-agent-button">
+          <img src="images/55_18.svg" alt="Add new agent">
+          <span>新增 AI 助理</span>
+        </button>
+      </div>
+      <div class="agents-grid">
+        <article class="agent-card">
+          <div class="card-visual-area" onclick="window.location.href='chat.html'" style="cursor: pointer;">
+            <!--merged image-->
+            <div class="card-background-visuals">
+              <img src="images/33_324.svg" class="bg-ellipse-1" alt="">
+              <img src="images/33_325.svg" class="bg-ellipse-2" alt="">
+            </div>
+            <div class="card-glass-effect"></div>
+            <div class="chat-mockup-container">
+              <div class="chat-mockup-header">
+                <span>親子專家</span>
+              </div>
+              <div class="chat-mockup-body">
+                <div class="mock-bubble-1"></div>
+                <div class="mock-bubble-2"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-info-area">
+            <div class="agent-details">
+              <h2 class="agent-title">親子專家</h2>
+              <p class="agent-status">上次訓練於 23 小時前</p>
+            </div>
+            <button class="more-options-button">
+              <img src="images/33_339.svg" alt="More options">
+            </button>
+          </div>
+        </article>
+      </div>
+    </main>
+  </section>
+</div>
+</body>
+</html>

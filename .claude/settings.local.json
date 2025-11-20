@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open http://127.0.0.1:8000/chat-logs.html)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

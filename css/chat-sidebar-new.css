@@ -1,0 +1,500 @@
+/* Modern Sidebar Styles - Floating Glass Effect */
+.chat-sidebar {
+  width: 60px;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 8px;
+  margin: 20px;
+  height: calc(100vh - 100px);
+  box-sizing: border-box;
+  overflow: visible;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  transition: width 0.35s cubic-bezier(0.34, 1.2, 0.64, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+              0 2px 8px rgba(0, 0, 0, 0.06);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-sidebar.is-expanded {
+  width: 240px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px) saturate(200%);
+  -webkit-backdrop-filter: blur(18px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15),
+              0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+/* Toggle Button */
+.sidebar-toggle-btn {
+  position: absolute;
+  right: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  z-index: 101;
+}
+
+.sidebar-toggle-btn:hover {
+  opacity: 0.8;
+}
+
+.toggle-arrow {
+  width: 20px;
+  height: 20px;
+  color: #4b5563;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.2s ease;
+}
+
+.toggle-arrow path {
+  stroke-width: 2.5;
+}
+
+.sidebar-toggle-btn:hover .toggle-arrow {
+  color: #374151;
+}
+
+.chat-sidebar.pinned .toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.sidebar-nav {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* 收起時 icon 居中 */
+.nav-link .nav-icon {
+  margin: 0 auto;
+}
+
+/* 展開時 icon 靠左 */
+.chat-sidebar.is-expanded .nav-link .nav-icon {
+  margin: 0;
+}
+
+.nav-link:hover {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+}
+
+/* Active State */
+.nav-item.active > .nav-link,
+.dropdown-item.active > .dropdown-link {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-text {
+  flex: 1;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-sidebar.is-expanded .nav-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Dropdown Styles */
+.dropdown-trigger {
+  user-select: none;
+}
+
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.chat-sidebar.is-expanded .dropdown-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg) translateX(0);
+}
+
+.dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-sidebar.is-expanded .nav-dropdown.open .dropdown-menu {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.dropdown-item {
+  position: relative;
+}
+
+.dropdown-link {
+  display: block;
+  padding: 8px 12px 8px 44px;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  margin: 0 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.chat-sidebar.is-expanded .dropdown-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.dropdown-link::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #9ca3af;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown-link:hover {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+  padding-left: 48px;
+}
+
+.dropdown-link:hover::before {
+  background: #f97316;
+  transform: translateY(-50%) scale(1.5);
+}
+
+.dropdown-item.active .dropdown-link {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.dropdown-item.active .dropdown-link::before {
+  background: #ea580c;
+  width: 6px;
+  height: 6px;
+}
+
+/* Active dropdown parent styling - 當子項目被選中時 */
+/* 收起狀態：父項目顯示橘色 */
+.nav-dropdown.has-active-child > .dropdown-trigger {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.nav-dropdown.has-active-child > .dropdown-trigger .nav-icon,
+.nav-dropdown.has-active-child > .dropdown-trigger .dropdown-arrow {
+  color: #ea580c;
+}
+
+/* 展開狀態且下拉選單打開時：父項目恢復正常 */
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger {
+  background: transparent;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger .nav-icon,
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger .dropdown-arrow {
+  color: #6b7280;
+}
+
+/* 展開狀態但下拉選單收起時：父項目仍然顯示橘色 */
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child:not(.open) > .dropdown-trigger {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child:not(.open) > .dropdown-trigger .nav-icon,
+.chat-sidebar.is-expanded .nav-dropdown.has-active-child:not(.open) > .dropdown-trigger .dropdown-arrow {
+  color: #ea580c;
+}
+
+/* Stagger animation for dropdown items */
+.dropdown-item:nth-child(1) .dropdown-link { transition-delay: 0.05s; }
+.dropdown-item:nth-child(2) .dropdown-link { transition-delay: 0.08s; }
+.dropdown-item:nth-child(3) .dropdown-link { transition-delay: 0.11s; }
+.dropdown-item:nth-child(4) .dropdown-link { transition-delay: 0.14s; }
+.dropdown-item:nth-child(5) .dropdown-link { transition-delay: 0.17s; }
+.dropdown-item:nth-child(6) .dropdown-link { transition-delay: 0.20s; }
+
+/* Usage Info Section */
+.sidebar-usage {
+  margin-top: auto;
+  padding: 12px;
+  margin: 8px 4px 4px 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+  transition: opacity 0.25s ease;
+}
+
+.chat-sidebar.is-expanded .sidebar-usage {
+  opacity: 1;
+  pointer-events: auto;
+  display: block;
+}
+
+.usage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.usage-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.usage-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.usage-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.usage-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.usage-reset {
+  font-size: 10px;
+  color: #9ca3af;
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+.upgrade-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+  isolation: isolate;
+}
+
+.upgrade-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(135deg, #f97316 0%, #3b82f6 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.upgrade-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #f97316 0%, #3b82f6 100%);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.upgrade-btn:hover {
+  color: white;
+}
+
+.upgrade-btn:hover::after {
+  opacity: 1;
+}
+
+.upgrade-btn:hover .upgrade-icon {
+  color: white;
+}
+
+.upgrade-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+.upgrade-text {
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .chat-sidebar {
+    position: static;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+  
+  .chat-sidebar.is-expanded {
+    width: 100%;
+    box-shadow: none;
+  }
+  
+  .nav-text,
+  .dropdown-arrow,
+  .dropdown-link {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .nav-item {
+    flex: 0 0 auto;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 10;
+    min-width: 160px;
+  }
+  
+  .nav-dropdown.open .dropdown-menu {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+

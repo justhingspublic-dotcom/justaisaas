@@ -1,0 +1,46 @@
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-primary-orange: #ff8800;
+  --primary-orange: #ff8800;
+  --background-light: #f9f9f9;
+  --border-color: #e0e0e3;
+  --border-color-light: rgba(0, 0, 0, 0.1);
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-tertiary: rgba(0, 0, 0, 0.4);
+  --text-disabled: rgba(0, 0, 0, 0.2);
+  --placeholder-bg: #d9d9d9;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  background-color: var(--color-white);
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+}
+
+.page-container {
+  width: 100%;
+  background-color: var(--color-white);
+}

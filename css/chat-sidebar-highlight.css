@@ -1,0 +1,119 @@
+/* Highlight Sliding Effect */
+.chat-sidebar-nav {
+  position: relative;
+}
+
+.nav-highlight {
+  position: absolute;
+  left: 6px;
+  width: calc(100% - 12px);
+  background-color: var(--color-white);
+  border: 0.5px solid var(--border-color-light);
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  opacity: 0; /* Default hidden until calculated */
+}
+
+.chat-sidebar-nav .nav-item a,
+.sub-nav-item a {
+  position: relative;
+  z-index: 1; /* Ensure text is above highlight */
+}
+
+/* Remove default active styles as highlight replaces them */
+.chat-sidebar-nav .nav-item.active > a {
+  background-color: transparent;
+  border: none;
+}
+
+.sub-nav-item.active > a {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Keep border transparent to maintain layout size if previously used border */
+.chat-sidebar-nav .nav-item a {
+  border: 0.5px solid transparent; 
+}
+
+/* Sub Navigation */
+.sub-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  position: relative;
+}
+
+.nav-item.expanded .sub-nav {
+  max-height: 1000px; /* More than enough for any content */
+  opacity: 1;
+  margin-top: 4px;
+}
+
+.nav-arrow {
+  margin-left: auto;
+  width: 10px;
+  height: 6px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item.expanded .nav-arrow {
+  transform: rotate(180deg);
+}
+
+.sub-nav-item {
+  position: relative;
+  padding-left: 4px;
+}
+
+.sub-nav-item a {
+  display: block;
+  padding: 10px 12px 10px 38px; /* Increased left padding for hierarchy */
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s ease; /* Removed background transition */
+  margin: 2px 0;
+  border: 1px solid transparent;
+}
+
+.sub-nav-item a:hover {
+  color: var(--text-secondary);
+  /* No background hover if we assume highlight handles selection */
+}
+
+.chat-sidebar-nav .nav-item > a:hover {
+   /* Handle hover for main items */
+   /* Optional: Subtle background on hover? */
+}
+
+/* Adjust colors for active state text */
+.chat-sidebar-nav .nav-item.active > a,
+.sub-nav-item.active > a {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Ensure Parent Title, Icon, and Arrow are Black when it has an active sub-item */
+.nav-item.has-active-child > a {
+  color: var(--text-primary);
+}
+
+.nav-item.has-active-child > a .nav-icon-wrapper .nav-icon {
+  filter: brightness(0) saturate(100%) !important;
+}
+
+.nav-item.has-active-child > a .nav-arrow {
+  filter: brightness(0) saturate(100%) !important;
+}
+/* Cache bust: 1763609292 */
