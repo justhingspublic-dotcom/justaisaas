@@ -8,17 +8,37 @@
   function initSidebar() {
     const sidebar = document.querySelector('.chat-sidebar');
     if (!sidebar || sidebar.dataset.initialized === 'true') {
+      // Even if initialized, we might need to re-bind the mobile toggle if the header was reloaded
+      bindMobileToggle();
       return;
     }
     sidebar.dataset.initialized = 'true';
 
+    // Add overlay for mobile
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      document.body.appendChild(overlay);
+      
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+      });
+    }
+
     const dashboardLayout = document.querySelector('.dashboard-layout');
 
     const setExpanded = (expanded) => {
+      // Do not expand on mobile
+      if (window.innerWidth <= 768) return;
       sidebar.classList.toggle('is-expanded', expanded);
     };
 
     const setPinned = (pinned) => {
+      // Do not pin on mobile
+      if (window.innerWidth <= 768) return;
+      
       sidebar.classList.toggle('pinned', pinned);
       if (dashboardLayout) {
         dashboardLayout.classList.toggle('sidebar-pinned', pinned);
@@ -37,6 +57,13 @@
       } else {
         window.location.href = href;
       }
+      
+      // Close mobile menu after navigation
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('mobile-open');
+        const overlay = document.querySelector('.sidebar-overlay');
+        if (overlay) overlay.classList.remove('active');
+      }
     };
 
     const toggleBtn = sidebar.querySelector('.sidebar-toggle-btn');
@@ -47,14 +74,19 @@
         setPinned(nextPinned);
       });
     }
+    
+    // Bind mobile toggle button in header
+    bindMobileToggle();
 
     const handleHoverExpand = (event) => {
+      if (window.innerWidth <= 768) return;
       if (sidebar.classList.contains('pinned')) return;
       if (event.target.closest && event.target.closest('.sidebar-toggle-btn')) return;
       setExpanded(true);
     };
 
     const handleHoverCollapse = () => {
+      if (window.innerWidth <= 768) return;
       if (sidebar.classList.contains('pinned')) return;
       setExpanded(false);
     };
@@ -62,9 +94,35 @@
     sidebar.addEventListener('pointerover', handleHoverExpand);
     sidebar.addEventListener('pointerleave', handleHoverCollapse);
 
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 768) {
+        // Mobile view
+        sidebar.classList.remove('pinned');
+        sidebar.classList.remove('is-expanded');
+        if (dashboardLayout) {
+          dashboardLayout.classList.remove('sidebar-pinned');
+        }
+        // We don't force close mobile menu here, user might want it open if they just resized
+        // But usually pinned state is desktop specific, so clearing it is correct.
+      } else {
+        // Desktop view - restore pinned state if saved
+        const wasPinned = localStorage.getItem(PINNED_STORAGE_KEY) === 'true';
+        if (wasPinned) {
+           sidebar.classList.add('pinned');
+           sidebar.classList.add('is-expanded');
+           if (dashboardLayout) {
+             dashboardLayout.classList.add('sidebar-pinned');
+           }
+        }
+      }
+    });
+
+    // Only restore pinned state on desktop
+    if (window.innerWidth > 768) {
     const wasPinned = localStorage.getItem(PINNED_STORAGE_KEY) === 'true';
     if (wasPinned) {
       setPinned(true);
+      }
     }
 
     const dropdownTriggers = sidebar.querySelectorAll('.dropdown-trigger');
@@ -101,6 +159,26 @@
     if (!documentListenerAttached) {
       document.addEventListener('click', handleDocumentClick);
       documentListenerAttached = true;
+    }
+  }
+  
+  function bindMobileToggle() {
+    const mobileToggleBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.chat-sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (mobileToggleBtn && sidebar) {
+      // Remove old listener if any (by cloning)
+      const newBtn = mobileToggleBtn.cloneNode(true);
+      mobileToggleBtn.parentNode.replaceChild(newBtn, mobileToggleBtn);
+      
+      newBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle('mobile-open');
+        if (overlay) {
+          overlay.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        }
+      });
     }
   }
 
@@ -185,6 +263,14 @@
         ) {
           initSidebar();
         }
+        // Also re-bind if header is reloaded
+        if (
+            node.nodeType === 1 && 
+            (node.classList.contains('main-header') || 
+             (typeof node.querySelector === 'function' && node.querySelector('.mobile-menu-btn')))
+        ) {
+            bindMobileToggle();
+        }
       });
     });
   });
@@ -194,4 +280,3 @@
   window.initializeSidebar = initSidebar;
   window.setSidebarActive = setActiveItem;
 })();
-

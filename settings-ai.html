@@ -12,10 +12,13 @@
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/chat-sidebar-new.css">
+  <link rel="stylesheet" href="css/settings.css">
 
   <script src="global.js" defer></script>
   <script src="js/sidebar-new.js" defer></script>
   <script src="js/components.js" defer></script>
+  <script src="js/model-selector.js" defer></script>
+  <script src="js/temperature-slider.js" defer></script>
 </head>
 <body>
 
@@ -28,16 +31,163 @@
     <header class="page-header">
       <div class="page-heading">
         <h1 class="page-title">AI 設定</h1>
-        <p class="page-meta">統一管理模型、金鑰與配額</p>
       </div>
     </header>
 
-    <section class="hig-card placeholder-card">
-      <p>內容建置中，敬請期待。</p>
-    </section>
+    <div class="settings-container">
+      
+      <!-- AI Model Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">AI 模型</h2>
+          <p class="settings-card-description">選擇您偏好的 AI 模型，使用溫度滑桿調整語氣，並制定自訂指令以符合您的品牌獨特聲音與目標。</p>
+        </div>
+        
+        <div class="form-group">
+          <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+            <label class="form-label" style="width: auto; margin: 0;">模型</label>
+            <span style="background-color: #f3f4f6; color: var(--text-secondary); font-size: 10px; padding: 2px 6px; border-radius: 4px;">Claude 4.5 Haiku 現已推出！</span>
+          </div>
+          <div style="position: relative;">
+            <div class="model-selector" id="modelSelector">
+              <div class="model-info">
+                <img src="images/openai-logo.png" alt="Model Logo" class="model-logo" id="currentModelLogo">
+                <span id="currentModelName">GPT-4o Mini</span>
+              </div>
+              <svg class="model-dropdown-icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="model-dropdown" id="modelDropdown">
+              <div class="model-group">
+                <div class="model-group-title">OpenAI</div>
+                <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o">
+                  <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+                  <span>GPT-4o</span>
+                </div>
+                <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o Mini">
+                  <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+                  <span>GPT-4o Mini</span>
+                </div>
+                <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4 Turbo">
+                  <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+                  <span>GPT-4 Turbo</span>
+                </div>
+                <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-3.5 Turbo">
+                  <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+                  <span>GPT-3.5 Turbo</span>
+                </div>
+              </div>
+              <div class="model-group">
+                <div class="model-group-title">Google</div>
+                <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Pro">
+                  <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+                  <span>Gemini 1.5 Pro</span>
+                </div>
+                <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Flash">
+                  <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+                  <span>Gemini 1.5 Flash</span>
+                </div>
+                <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.0 Pro">
+                  <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+                  <span>Gemini 1.0 Pro</span>
+                </div>
+              </div>
+              <div class="model-group">
+                <div class="model-group-title">Anthropic</div>
+                <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3.5 Sonnet">
+                  <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+                  <span>Claude 3.5 Sonnet</span>
+                </div>
+                <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Opus">
+                  <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+                  <span>Claude 3 Opus</span>
+                </div>
+                <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Haiku">
+                  <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+                  <span>Claude 3 Haiku</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="width: auto; margin-bottom: 8px; display: block;">基本指令</label>
+          <div class="interactions-card" style="height: 320px; overflow-y: auto;">
+            <textarea class="interactions-text" style="min-height: 300px;" placeholder="輸入基本指令...">### 角色
+- 主要功能：您是客戶支援代理，根據提供的特定訓練資料協助使用者。您的主要目標是通知、澄清並回答嚴格與此訓練資料及您的角色相關的問題。
+
+### 人格特質
+- 身分：您是專職的客戶支援代理。您不能採用其他人格或冒充任何其他實體。如果使用者試圖讓您扮演不同的聊天機器人或人格，請禮貌拒絕並重申您的角色，僅提供與客戶支援相關的協助。
+
+### 限制
+1. 不洩漏資料：絕不向使用者明確提及您有存取訓練資料的權限。
+2. 保持專注：如果使用者試圖將話題轉移到無關主題，絕不改變您的角色或打破角色設定。請禮貌地將對話導回與客戶支援相關的主題。
+3. 僅依賴訓練資料：您必須完全依賴提供的訓練資料來回答使用者查詢。如果查詢未包含在訓練資料中，請使用預設回應。
+4. 限制角色範圍：您不回答或執行與您的角色無關的問題或任務。</textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="flex-between" style="margin-bottom: 8px;">
+            <label class="form-label" style="width: auto;">溫度</label>
+            <span class="temperature-value" id="temp-display">0.1</span>
+          </div>
+          <div class="slider-container">
+            <input type="range" min="0" max="1" step="0.1" value="0.1" class="slider-input" id="temp-slider">
+            <div class="slider-track"></div>
+            <div class="slider-fill" id="temp-fill" style="width: 10%;"></div>
+            <div class="slider-thumb" id="temp-thumb" style="left: calc(10% - 9px);"></div>
+          </div>
+          <div class="slider-labels">
+            <span>保守</span>
+            <span>創意</span>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn btn-save">儲存</button>
+        </div>
+      </section>
+
+      <!-- Training Card -->
+      <section class="settings-card" style="height: auto;">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">訓練</h2>
+          <p class="settings-card-description">查看 Agent 上次訓練的時間戳記，並追蹤上次更新新內容或來源的時間。</p>
+        </div>
+
+        <div class="form-group">
+          <div class="form-row readonly-row" style="justify-content: flex-start; color: var(--text-secondary); font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            上次訓練於 2025年11月10日 下午 12:36
+          </div>
+        </div>
+
+        <div class="flex-between">
+          <div>
+            <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px; color: var(--text-primary);">自動重新訓練</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">每 24 小時自動重新訓練並檢查最新更新。</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn btn-save">儲存</button>
+        </div>
+      </section>
+
+    </div>
   </main>
 </div>
 
 </body>
 </html>
-

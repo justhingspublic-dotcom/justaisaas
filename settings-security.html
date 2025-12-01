@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/chat-sidebar-new.css">
+  <link rel="stylesheet" href="css/settings.css">
 
   <script src="global.js" defer></script>
   <script src="js/sidebar-new.js" defer></script>
@@ -28,16 +29,40 @@
     <header class="page-header">
       <div class="page-heading">
         <h1 class="page-title">安全</h1>
-        <p class="page-meta">控管登入、權限與資料保護</p>
       </div>
     </header>
 
-    <section class="hig-card placeholder-card">
-      <p>內容建置中，敬請期待。</p>
-    </section>
+    <div class="settings-container">
+      <!-- Rate Limit Card -->
+      <section class="settings-card" style="grid-column: 1 / -1;">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">速率限制</h2>
+          <p class="settings-card-description">限制單一裝置在 iframe 和聊天氣泡上發送的訊息數量（此限制不適用於 justai.com 上的您，僅適用於網站上的使用者以防止濫用）。</p>
+        </div>
+
+        <div class="form-group">
+          <div style="background-color: #f9fafb; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <span style="font-size: 14px; color: var(--text-primary);">限制為</span>
+            <input type="number" class="form-input" value="20" style="width: 80px; text-align: center;">
+            <span style="font-size: 14px; color: var(--text-primary);">則訊息，每</span>
+            <input type="number" class="form-input" value="240" style="width: 80px; text-align: center;">
+            <span style="font-size: 14px; color: var(--text-primary);">秒。</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="width: auto; margin-bottom: 8px; display: block;">達到限制時顯示的訊息</label>
+          <input type="text" class="form-input" value="連續傳送太多訊息">
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn" style="background-color: white; border: 1px solid var(--border-color); color: var(--text-primary); margin-right: 8px;">重置</button>
+          <button class="btn btn-save">儲存</button>
+        </div>
+      </section>
+    </div>
   </main>
 </div>
 
 </body>
 </html>
-

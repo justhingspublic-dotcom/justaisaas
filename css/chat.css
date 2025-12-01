@@ -686,7 +686,7 @@
   height: 18px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
   .dashboard-layout {
     flex-direction: column;
     padding-left: 0;

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/chat-sidebar-new.css">
+  <link rel="stylesheet" href="css/settings.css">
 
   <script src="global.js" defer></script>
   <script src="js/sidebar-new.js" defer></script>
@@ -28,16 +29,100 @@
     <header class="page-header">
       <div class="page-heading">
         <h1 class="page-title">一般</h1>
-        <p class="page-meta">調整工作區基本資訊與權限</p>
       </div>
     </header>
 
-    <section class="hig-card placeholder-card">
-      <p>內容建置中，敬請期待。</p>
+    <div class="settings-container">
+      
+      <!-- Agent Details Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">Agent 詳細資訊</h2>
+          <p class="settings-card-description">關於 Agent 的基本資訊，包含名稱、唯一 ID 與儲存空間大小。</p>
+        </div>
+        
+        <div class="form-group">
+          <div class="form-row readonly-row">
+            <label class="form-label">Agent ID</label>
+            <div class="form-value">
+              kPwWj_v7yOHwYL8E_rHAk
+              <button class="copy-btn" title="複製 ID">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="form-row readonly-row">
+            <label class="form-label">大小</label>
+            <div class="form-value">17 KB</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="margin-bottom: 8px;">
+            <label class="form-label" style="width: auto; margin-bottom: 4px; display: block;">名稱</label>
+            <input type="text" class="form-input" value="親子專家" placeholder="輸入 Agent 名稱">
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn btn-save">儲存</button>
+        </div>
+      </section>
+
+      <!-- Credits Limit Card -->
+      <section class="settings-card">
+        <div class="settings-card-header">
+          <h2 class="settings-card-title">點數限制</h2>
+          <p class="settings-card-description">此 Agent 可從工作區可用點數中使用的最大額度。</p>
+        </div>
+
+        <div class="flex-between">
+          <span style="font-size: 14px; font-weight: 500;">設定 Agent 點數限制：</span>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-input" placeholder="輸入點數限制" disabled style="background-color: #f9fafb;">
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn btn-save">儲存</button>
+        </div>
+      </section>
+
+      <!-- Danger Zone -->
+      <div class="danger-zone-title">危險區域</div>
+
+      <section class="settings-card danger-card">
+        <div class="danger-row">
+          <div class="danger-info">
+            <h3>刪除所有對話</h3>
+            <p>刪除後無法復原，請確認您的決定。此 Agent 的所有對話紀錄將被永久刪除。</p>
+          </div>
+          <button class="btn btn-danger">刪除</button>
+        </div>
+      </section>
+
+      <section class="settings-card danger-card">
+        <div class="danger-row">
+          <div class="danger-info">
+            <h3>刪除 Agent</h3>
+            <p>刪除後無法復原，請確認您的決定。</p>
+          </div>
+          <button class="btn btn-danger">刪除</button>
+        </div>
     </section>
+
+    </div>
   </main>
 </div>
 
 </body>
 </html>
-

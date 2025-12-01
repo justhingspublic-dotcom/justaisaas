@@ -16,6 +16,16 @@
   width: 100% !important;
 }
 
+.mobile-menu-btn {
+  display: none; /* 預設隱藏 */
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  margin-right: 8px;
+}
+
 .workspace-info {
   display: flex;
   align-items: center;
@@ -90,15 +100,33 @@
 
 @media (max-width: 768px) {
   .main-header {
-    padding: 10px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-    gap: 10px;
+    padding: 0 16px;
+    justify-content: flex-start; /* 讓漢堡選單靠左 */
   }
+  
+  .mobile-menu-btn {
+    display: flex; /* 顯示漢堡選單 */
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 調整 Header 佈局以容納按鈕 */
+  .workspace-info {
+    gap: 12px;
+    flex-grow: 1;
+  }
+  
+  /* 隱藏部分 Header 元素以節省空間 */
+  .header-nav a {
+    display: none;
+  }
+  
+  .header-nav .nav-divider {
+    display: none;
+  }
+  
+  /* 保持頭像顯示 */
   .header-nav {
-    width: 100%;
-    justify-content: flex-end;
+    margin-left: auto;
   }
 }
-

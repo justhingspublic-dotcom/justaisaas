@@ -140,6 +140,14 @@ async function handleNavigation(url, pushState = true) {
             window.history.pushState({ url: url }, doc.title, url);
         }
         
+        // Re-initialize interactive components
+        if (typeof window.initModelSelector === 'function') {
+            window.initModelSelector();
+        }
+        if (typeof window.initTemperatureSlider === 'function') {
+            window.initTemperatureSlider();
+        }
+        
         const hasChatSidebar = document.querySelector('.chat-sidebar');
         if (hasChatSidebar) {
             if (typeof window.setSidebarActive === 'function') {

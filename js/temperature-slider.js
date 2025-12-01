@@ -1,38 +1,81 @@
 // Temperature Slider
-document.addEventListener('DOMContentLoaded', function() {
-  const slider = document.getElementById('temperatureSlider');
-  const temperatureValue = document.getElementById('temperatureValue');
-  const sliderFill = document.getElementById('sliderFill');
-  const sliderThumb = document.getElementById('sliderThumb');
-  const sliderContainer = document.querySelector('.slider-container');
+(function() {
+  'use strict';
 
-  function updateSlider() {
-    const value = parseFloat(slider.value);
-    const percentage = (value / 1) * 100;
-    
-    // Update display value
-    temperatureValue.textContent = value.toFixed(1);
-    
-    // Update fill width
-    sliderFill.style.width = percentage + '%';
-    
-    // Update thumb position
-    sliderThumb.style.left = 'calc(' + percentage + '% - 9px)';
+  function initTemperatureSlider() {
+    // Initialize slider for settings page
+    const settingsSlider = document.getElementById('temp-slider');
+    if (settingsSlider) {
+      bindSlider(
+        'temp-slider',
+        'temp-fill',
+        'temp-thumb',
+        'temp-display'
+      );
+    }
+
+    // Initialize slider for chat page
+    const chatSlider = document.getElementById('temperatureSlider');
+    if (chatSlider) {
+      bindSlider(
+        'temperatureSlider',
+        'sliderFill',
+        'sliderThumb',
+        'temperatureValue'
+      );
+    }
   }
 
-  // Initialize slider position
-  updateSlider();
+  function bindSlider(sliderId, fillId, thumbId, displayId) {
+    const slider = document.getElementById(sliderId);
+    const fill = document.getElementById(fillId);
+    const thumb = document.getElementById(thumbId);
+    const display = document.getElementById(displayId);
 
-  // Update on input
-  slider.addEventListener('input', updateSlider);
-  
-  // Add active class when dragging
-  slider.addEventListener('mousedown', function() {
-    sliderContainer.classList.add('slider-active');
-  });
-  
-  slider.addEventListener('mouseup', function() {
-    sliderContainer.classList.remove('slider-active');
-  });
-});
+    if (slider && fill && thumb && display) {
+      // Check if already initialized
+      if (slider.dataset.initialized === 'true') return;
+      slider.dataset.initialized = 'true';
 
+      function updateSlider() {
+        const val = parseFloat(slider.value);
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+        const percentage = ((val - min) / (max - min)) * 100;
+        
+        fill.style.width = percentage + '%';
+        // thumb width is 18px, so half is 9px
+        thumb.style.left = `calc(${percentage}% - 9px)`;
+        display.textContent = val;
+        
+        // Add active class for visual feedback
+        if (slider.parentElement) {
+            slider.parentElement.classList.add('slider-active');
+        }
+      }
+      
+      function removeActiveClass() {
+        if (slider.parentElement) {
+            slider.parentElement.classList.remove('slider-active');
+        }
+      }
+
+      slider.addEventListener('input', updateSlider);
+      slider.addEventListener('change', removeActiveClass);
+      slider.addEventListener('blur', removeActiveClass);
+      
+      // Initialize
+      updateSlider();
+    }
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTemperatureSlider);
+  } else {
+    initTemperatureSlider();
+  }
+
+  // Expose globally
+  window.initTemperatureSlider = initTemperatureSlider;
+})();

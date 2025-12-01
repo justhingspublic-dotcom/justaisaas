@@ -204,8 +204,8 @@
 .chat-sidebar.is-expanded .nav-dropdown.open .dropdown-menu {
   max-height: 500px;
   opacity: 1;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .dropdown-item {
@@ -270,7 +270,7 @@
 }
 
 /* Active dropdown parent styling - 當子項目被選中時 */
-/* 收起狀態：父項目顯示橘色 */
+/* 預設 (收起狀態 或 未打開選單): 父項目顯示橘色 */
 .nav-dropdown.has-active-child > .dropdown-trigger {
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
   color: #ea580c;
@@ -282,16 +282,28 @@
   color: #ea580c;
 }
 
-/* 展開狀態且下拉選單打開時：父項目恢復正常 */
-.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger {
+/* 當選單打開時 (無論是桌面展開還是手機版): 父項目恢復正常，因為子項目會亮起 */
+.nav-dropdown.has-active-child.open > .dropdown-trigger {
   background: transparent;
   color: #6b7280;
   font-weight: 500;
 }
 
-.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger .nav-icon,
-.chat-sidebar.is-expanded .nav-dropdown.has-active-child.open > .dropdown-trigger .dropdown-arrow {
+.nav-dropdown.has-active-child.open > .dropdown-trigger .nav-icon,
+.nav-dropdown.has-active-child.open > .dropdown-trigger .dropdown-arrow {
   color: #6b7280;
+}
+
+/* 覆蓋：如果父項目本身被選中（沒有子項目 active 但自己有 active class），則保持橘色 */
+.nav-dropdown.active.open > .dropdown-trigger {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.12) 100%);
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.nav-dropdown.active.open > .dropdown-trigger .nav-icon,
+.nav-dropdown.active.open > .dropdown-trigger .dropdown-arrow {
+  color: #ea580c;
 }
 
 /* 展開狀態但下拉選單收起時：父項目仍然顯示橘色 */
@@ -449,23 +461,56 @@
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
+  /* 修正容器寬度問題 */
+  #chat-sidebar-container {
+    width: 0 !important; /* 在手機版不需要佔據空間，因為 sidebar 是 fixed */
+  }
+
   .chat-sidebar {
-    position: static;
+    position: fixed; /* 恢復 fixed 定位 */
+    left: -100%; /* 預設隱藏在左側外 */
+    top: 60px; /* 避開 Header */
+    width: 280px; /* 固定寬度 */
+    height: calc(100vh - 60px);
     margin: 0;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid #e5e5e5;
-    border-radius: 12px;
-    box-shadow: none;
+    background: rgba(255, 255, 255, 0.85); /* 降低不透明度以顯示毛玻璃效果 */
+    border-right: 1px solid #e5e5e5;
+    border-radius: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9995; /* 低於 Header (9999) 但高於遮罩 (9990) */
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /* 手機版選單開啟狀態 */
+  .chat-sidebar.mobile-open {
+    left: 0;
   }
   
   .chat-sidebar.is-expanded {
-    width: 100%;
-    box-shadow: none;
+    width: 280px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 手機版顯示使用額度 */
+  .sidebar-usage,
+  .chat-sidebar.mobile-open .sidebar-usage {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    margin: 20px 16px;
+  }
+
+  /* 手機版隱藏收合箭頭 */
+  .sidebar-toggle-btn {
+    display: none;
   }
   
+  /* 確保文字顯示 */
   .nav-text,
   .dropdown-arrow,
   .dropdown-link {
@@ -474,9 +519,10 @@
   }
   
   .nav-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: flex-start;
   }
   
   .nav-item {
@@ -484,17 +530,37 @@
   }
   
   .dropdown-menu {
-    position: absolute;
-    background: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    z-index: 10;
-    min-width: 160px;
+    position: relative;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    z-index: auto;
+    min-width: auto;
+    padding-left: 0;
   }
   
   .nav-dropdown.open .dropdown-menu {
     max-height: 500px;
     opacity: 1;
+    margin-top: 0;
+  }
+  
+  /* Overlay for mobile menu */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 9990; /* 低於 Header (9999) 與側邊欄 (9995) */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
-
