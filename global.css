@@ -21,9 +21,11 @@ html {
 body {
   margin: 0;
   padding: 0;
+  padding-top: 60px;
   font-family: 'Noto Sans TC', sans-serif;
-  background-color: var(--color-white);
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
   color: var(--text-primary);
+  min-height: 100vh;
 }
 
 * {

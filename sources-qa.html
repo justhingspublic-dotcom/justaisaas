@@ -7,15 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cactus+Classical+Serif&family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/chat-sidebar-new.css">
+  <link rel="stylesheet" href="css/sources-text.css">
 
   <script src="global.js" defer></script>
   <script src="js/sidebar-new.js" defer></script>
   <script src="js/components.js" defer></script>
+  <script src="js/text-editor.js" defer></script>
 </head>
 <body>
 
@@ -24,20 +27,96 @@
 <div class="dashboard-layout">
   <div id="chat-sidebar-container"></div>
 
-  <main class="page-section">
+  <main class="playground-content page-section">
     <header class="page-header">
       <div class="page-heading">
         <h1 class="page-title">問答</h1>
-        <p class="page-meta">此區將用於整理常見問答素材</p>
+        <p class="page-meta">為關鍵問題製作回應，確保您的 AI 分享相關資訊。</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary">了解更多</button>
       </div>
     </header>
 
-    <section class="hig-card placeholder-card">
-      <p>內容建置中，敬請期待。</p>
+    <section class="text-source-card">
+      <h3 class="card-title">新增問答</h3>
+      
+      <div class="input-group">
+         <label class="input-label">標題</label>
+        <input type="text" class="text-input" placeholder="例如：退款請求">
+      </div>
+
+      <div class="input-group">
+         <label class="input-label">問題</label>
+        <input type="text" class="text-input" placeholder="例如：我該如何申請退款？">
+      </div>
+
+      <button class="btn-add-question">
+        <span class="material-icons">add</span>
+        新增問題
+      </button>
+
+      <div class="input-group">
+         <label class="input-label">回答</label>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-toolbar">
+          <div class="toolbar-actions">
+            <button class="toolbar-btn" title="格式">
+              <span class="material-icons">title</span>
+            </button>
+            <button class="toolbar-btn" title="粗體">
+              <span class="material-icons">format_bold</span>
+            </button>
+            <button class="toolbar-btn" title="斜體">
+              <span class="material-icons">format_italic</span>
+            </button>
+            <button class="toolbar-btn" title="刪除線">
+              <span class="material-icons">strikethrough_s</span>
+            </button>
+            <div style="width: 1px; height: 20px; background: #e0e0e3; margin: 0 8px;"></div>
+            <button class="toolbar-btn" title="清單">
+              <span class="material-icons">format_list_bulleted</span>
+            </button>
+            <button class="toolbar-btn" title="有序清單">
+              <span class="material-icons">format_list_numbered</span>
+            </button>
+            <button class="toolbar-btn" title="連結">
+              <span class="material-icons">link</span>
+            </button>
+            <button class="toolbar-btn" title="表情符號">
+              <span class="material-icons">emoji_emotions</span>
+            </button>
+          </div>
+          <span class="char-count">0 B</span>
+        </div>
+        <textarea class="editor-textarea" placeholder="輸入您的文字"></textarea>
+      </div>
+
+      <div class="card-footer">
+         <button class="btn-primary">新增問答</button>
+      </div>
     </section>
   </main>
+
+  <div class="vertical-divider"></div>
+
+  <aside class="sources-info-pane">
+    <h3 class="sidebar-heading">來源</h3>
+    <div class="sidebar-card">
+      <div class="stats-row">
+        <span>總大小</span>
+        <span class="stats-value">0/ 400 KB</span>
+      </div>
+      <button class="btn-primary btn-block btn-disabled">重新訓練 Agent</button>
+    </div>
+    
+    <div class="source-alert">
+      您目前沒有任何來源
+    </div>
+  </aside>
 </div>
 
 </body>
 </html>
-

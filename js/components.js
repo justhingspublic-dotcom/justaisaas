@@ -1,19 +1,33 @@
 // 載入組件的函數
 async function loadComponent(elementId, componentPath) {
-  try {
-    const response = await fetch(componentPath);
-    if (!response.ok) {
-      throw new Error(`Failed to load ${componentPath}`);
-    }
-    const html = await response.text();
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.innerHTML = html;
-    }
-    return element;
-  } catch (error) {
-    console.error('Error loading component:', error);
-  }
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', componentPath, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const html = xhr.responseText;
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.innerHTML = html;
+          resolve(element);
+        } else {
+          const error = `Element #${elementId} not found`;
+          console.error(error);
+          reject(new Error(error));
+        }
+      } else {
+        const error = `HTTP ${xhr.status}: Failed to load ${componentPath}`;
+        console.error(error);
+        reject(new Error(error));
+      }
+    };
+    xhr.onerror = function() {
+      const error = `Network error loading ${componentPath}`;
+      console.error(error);
+      reject(new Error(error));
+    };
+    xhr.send();
+  });
 }
 
 // 當 DOM 載入完成時載入所有組件
@@ -44,12 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const chatSidebarContainer = document.getElementById('chat-sidebar-container');
   if (chatSidebarContainer) {
     loadComponent('chat-sidebar-container', 'components/chat-sidebar.html').then(() => {
+      // Initialize sidebar after HTML is loaded
+      if (window.initializeSidebar) {
+        window.initializeSidebar();
+      }
       // Wait a bit for sidebar-new.js to initialize
       setTimeout(() => {
         if (window.setSidebarActive) {
           window.setSidebarActive();
         }
-      }, 100);
+      }, 150);
     });
   }
 
