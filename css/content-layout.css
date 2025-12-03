@@ -1,0 +1,230 @@
+/* Content Layout System - Generic Content Page Styles */
+
+/* 1. Layout Architecture - Independent Scrolling */
+.dashboard-layout {
+  display: flex;
+  height: calc(100vh - 60px); /* Subtract header height */
+  overflow: hidden; /* Prevent body scroll */
+}
+
+/* Main Content Area (Left/Center) */
+.playground-content {
+  flex: 0 0 33.33%; /* Fixed 1/3 width */
+  overflow-y: auto; /* Independent scroll */
+  padding: 40px 40px 80px 64px; /* Adjust padding to balance visual weight */
+  margin: 0;
+  background-color: transparent;
+  min-width: 360px; /* Prevent too narrow */
+  box-sizing: border-box;
+}
+
+/* Preview Pane (Right) */
+.chat-preview-pane {
+  flex: 1; /* Takes remaining space (approx 2/3) */
+  background-color: #f3f4f6; /* Distinct background */
+  /* Dot Pattern */
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px); /* Slightly lighter dot */
+  background-size: 24px 24px;
+  background-position: -12px -12px;
+  
+  border-left: 1px solid rgba(0,0,0,0.06);
+  height: 100%;
+  overflow-y: hidden; /* Container doesn't scroll, inner might or it's centered */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  /* Adjust split for smaller screens if needed, or keep 50/50 until mobile breakpoint */
+  .chat-preview-pane {
+    flex: 1;
+  }
+  .playground-content {
+    padding: 32px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  .playground-content {
+    overflow-y: visible;
+    padding: 24px;
+  }
+  .chat-preview-pane {
+    width: 100%;
+    flex: none;
+    height: 600px;
+  }
+}
+
+/* 2. Typography & Visual Hierarchy */
+.page-title {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-weight: 400;
+  margin: 0 0 32px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-group {
+  margin-bottom: 48px; /* Breathable spacing */
+}
+
+.section-title {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--text-secondary); /* Darker than tertiary for readability */
+  margin: 0 0 16px 0;
+}
+
+/* 3. Input Surfaces & Controls */
+.ui-input-surface {
+  background-color: #ffffff; /* Changed from #f7f7f8 to white */
+  border: 1px solid var(--border-color); /* Explicit border */
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow for depth */
+}
+
+.ui-input-surface:hover {
+  border-color: #c0c0c4; /* Darker border on hover */
+}
+
+.ui-input-surface:focus-within,
+.ui-input-surface:focus {
+  background-color: #ffffff;
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 8px 0 rgba(255, 136, 0, 0.3);
+  outline: none;
+}
+
+textarea.ui-input-surface {
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* 4. Custom Components */
+
+/* Wrapper for Selector to handle positioning context */
+.model-selector-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Model Selector Button Style */
+.ui-selector-button {
+  position: relative; /* Kept relative for inner content if needed, but wrapper handles dropdown context */
+  background-color: #ffffff; /* Changed to white */
+  border: 1px solid var(--border-color); /* Add border */
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Match input style */
+  z-index: 1;
+}
+
+.ui-selector-button:hover {
+  border-color: #c0c0c4;
+  background-color: #ffffff; /* Keep white on hover */
+}
+
+.ui-selector-button.active {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 8px 0 rgba(255, 136, 0, 0.3);
+  z-index: 1001; /* Ensure it stays above dropdown if needed */
+}
+
+.ui-selector-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Ensure dropdown visibility and animation */
+.model-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%; /* Match selector width */
+  
+  /* Frosted Glass Effect */
+  background-color: rgba(255, 255, 255, 0.2); /* Transparent white */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 1000;
+  
+  /* Initial state */
+  display: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.model-dropdown.show {
+  display: block; /* JS toggles this, but let's be safe */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Status Badge */
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ui-badge.status-trained {
+  background-color: rgba(39, 154, 52, 0.1);
+  color: #1f7a29;
+}
+
+.ui-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Slider Customization Overrides */
+/* Styles moved to css/components/slider.css */

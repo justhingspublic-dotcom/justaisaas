@@ -1,0 +1,136 @@
+/* Dropdown Component Styles */
+
+/* Wrapper for positioning context */
+.dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Dropdown Button/Selector */
+.dropdown-button {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown-button:hover {
+  border-color: #c0c0c4;
+  background-color: #ffffff;
+}
+
+.dropdown-button.active {
+  border-color: var(--primary-orange, #ff8800);
+  box-shadow: 0 0 8px 0 rgba(255, 136, 0, 0.3);
+  z-index: 1001;
+}
+
+/* Dropdown Content Container */
+.dropdown-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Dropdown Icon (Arrow) */
+.dropdown-icon {
+  width: 10px;
+  height: 6px;
+  color: var(--text-secondary, rgba(0,0,0,0.6));
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dropdown-button.active .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu (Popup) */
+.ui-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  
+  /* Frosted Glass Effect */
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 1000;
+  
+  max-height: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  
+  /* Initial state */
+  display: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ui-dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dropdown Group */
+.dropdown-group {
+  padding: 4px 0;
+}
+
+.dropdown-group:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-group-title {
+  padding: 6px 12px 3px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary, rgba(0,0,0,0.6));
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Dropdown Option/Item */
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 13px;
+  color: var(--text-primary, #000000);
+}
+
+.dropdown-option:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dropdown-option img,
+.dropdown-option .dropdown-option-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+

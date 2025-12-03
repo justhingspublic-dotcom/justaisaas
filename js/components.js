@@ -144,8 +144,8 @@ async function handleNavigation(url, pushState = true) {
         if (typeof window.initModelSelector === 'function') {
             window.initModelSelector();
         }
-        if (typeof window.initTemperatureSlider === 'function') {
-            window.initTemperatureSlider();
+        if (typeof window.reinitSliders === 'function') {
+            window.reinitSliders();
         }
         
         const hasChatSidebar = document.querySelector('.chat-sidebar');

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>親子專家 - Agent 工作台</title>
+  <title>Agent 工作台</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cactus+Classical+Serif&family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+HK:wght@200..900&display=swap" rel="stylesheet">
@@ -16,13 +16,22 @@
   <link rel="stylesheet" href="css/chat.css">
   <link rel="stylesheet" href="css/chat-logs.css">
   <link rel="stylesheet" href="css/chat-sidebar-new.css">
+  <link rel="stylesheet" href="css/content-layout.css">
+  
+  <!-- Component Styles -->
+  <link rel="stylesheet" href="css/components/slider.css">
+  <link rel="stylesheet" href="css/components/dropdown.css">
+  <link rel="stylesheet" href="css/components/input.css">
   
   <!-- Scripts -->
   <script src="global.js" defer></script>
   <script src="js/sidebar-new.js" defer></script>
   <script src="js/components.js" defer></script>
+  
+  <!-- Component Scripts -->
+  <script src="js/components/slider.js" defer></script>
+  <script src="js/components/dropdown.js" defer></script>
   <script src="js/model-selector.js" defer></script>
-  <script src="js/temperature-slider.js" defer></script>
 </head>
 <body>
 
@@ -33,101 +42,104 @@
   <!-- Chat Sidebar Component -->
   <div id="chat-sidebar-container"></div>
 
-  <main class="playground-content page-section">
-    <h1 class="page-title">Agent 工作台</h1>
-    <div class="status-card">
-      <div class="status-header">
-        <span class="status-dot-green"></span>
-        <span class="status-text">已訓練</span>
+  <main class="playground-content">
+    <div class="header-group">
+      <h1 class="page-title">Agent 工作台</h1>
+      <div class="page-subtitle">
+        <div class="ui-badge status-trained">
+          <span class="ui-badge-dot"></span>
+          <span>已訓練</span>
+        </div>
+        <span style="margin-left: 8px; color: var(--text-tertiary);">上次訓練於 1 天前 • 17 KB</span>
       </div>
-      <p class="status-meta">上次訓練於 1 天前 • 17 KB</p>
     </div>
-    <hr class="divider">
-    <section class="settings-section">
+
+    <div class="section-group">
       <h2 class="section-title">模型</h2>
-      <div class="model-selector" id="modelSelector">
-        <div class="model-info">
-          <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo" id="currentModelLogo">
-          <span id="currentModelName">GPT-4o Mini</span>
+      <div class="model-selector-wrapper">
+        <div class="ui-selector-button" id="modelSelector">
+          <div class="ui-selector-content">
+            <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo" id="currentModelLogo" style="width: 18px; height: 18px;">
+            <span id="currentModelName">GPT-4o Mini</span>
+          </div>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.5;">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <svg class="model-dropdown-icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <div class="model-dropdown" id="modelDropdown">
+          <div class="model-group">
+            <div class="model-group-title">OpenAI</div>
+            <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o">
+              <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+              <span>GPT-4o</span>
+            </div>
+            <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o Mini">
+              <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+              <span>GPT-4o Mini</span>
+            </div>
+            <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4 Turbo">
+              <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+              <span>GPT-4 Turbo</span>
+            </div>
+            <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-3.5 Turbo">
+              <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
+              <span>GPT-3.5 Turbo</span>
+            </div>
+          </div>
+          <div class="model-group">
+            <div class="model-group-title">Google</div>
+            <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Pro">
+              <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+              <span>Gemini 1.5 Pro</span>
+            </div>
+            <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Flash">
+              <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+              <span>Gemini 1.5 Flash</span>
+            </div>
+            <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.0 Pro">
+              <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
+              <span>Gemini 1.0 Pro</span>
+            </div>
+          </div>
+          <div class="model-group">
+            <div class="model-group-title">Anthropic</div>
+            <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3.5 Sonnet">
+              <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+              <span>Claude 3.5 Sonnet</span>
+            </div>
+            <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Opus">
+              <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+              <span>Claude 3 Opus</span>
+            </div>
+            <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Haiku">
+              <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
+              <span>Claude 3 Haiku</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="model-dropdown" id="modelDropdown">
-        <div class="model-group">
-          <div class="model-group-title">OpenAI</div>
-          <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o">
-            <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
-            <span>GPT-4o</span>
-          </div>
-          <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4o Mini">
-            <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
-            <span>GPT-4o Mini</span>
-          </div>
-          <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-4 Turbo">
-            <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
-            <span>GPT-4 Turbo</span>
-          </div>
-          <div class="model-option" data-logo="images/openai-logo.png" data-name="GPT-3.5 Turbo">
-            <img src="images/openai-logo.png" alt="OpenAI logo" class="model-logo">
-            <span>GPT-3.5 Turbo</span>
-          </div>
-        </div>
-        <div class="model-group">
-          <div class="model-group-title">Google</div>
-          <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Pro">
-            <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
-            <span>Gemini 1.5 Pro</span>
-          </div>
-          <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.5 Flash">
-            <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
-            <span>Gemini 1.5 Flash</span>
-          </div>
-          <div class="model-option" data-logo="images/gemini-color.png" data-name="Gemini 1.0 Pro">
-            <img src="images/gemini-color.png" alt="Gemini logo" class="model-logo">
-            <span>Gemini 1.0 Pro</span>
-          </div>
-        </div>
-        <div class="model-group">
-          <div class="model-group-title">Anthropic</div>
-          <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3.5 Sonnet">
-            <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
-            <span>Claude 3.5 Sonnet</span>
-          </div>
-          <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Opus">
-            <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
-            <span>Claude 3 Opus</span>
-          </div>
-          <div class="model-option" data-logo="images/claude-logo.png" data-name="Claude 3 Haiku">
-            <img src="images/claude-logo.png" alt="Claude logo" class="model-logo">
-            <span>Claude 3 Haiku</span>
-          </div>
-        </div>
+    </div>
+
+    <div class="section-group">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 class="section-title" style="margin:0">溫度</h2>
+        <span class="temperature-value" id="temperatureValue" style="font-size: 14px; font-weight: 500; color: var(--text-primary);">0.1</span>
       </div>
-    </section>
-    <hr class="divider">
-    <section class="settings-section">
-      <div class="section-header">
-        <h2 class="section-title">溫度</h2>
-        <span class="temperature-value" id="temperatureValue">0.1</span>
-      </div>
-      <div class="slider-container">
+      <div class="slider-container" style="height: 32px;">
         <input type="range" id="temperatureSlider" class="slider-input" min="0" max="1" step="0.1" value="0.1">
         <div class="slider-track"></div>
         <div class="slider-fill" id="sliderFill"></div>
         <div class="slider-thumb" id="sliderThumb"></div>
       </div>
-      <div class="slider-labels">
+      <div class="slider-labels" style="margin-top: 8px;">
         <span>精確</span>
         <span>創意</span>
       </div>
-    </section>
-    <hr class="divider">
-    <section class="settings-section">
+    </div>
+
+    <div class="section-group">
       <h2 class="section-title">互動設定</h2>
-      <div class="interactions-card">
-        <textarea class="interactions-text" rows="18">### 角色設定
+      <textarea class="ui-input-surface interactions-text" rows="18">### 角色設定
 - 主要功能：您是客戶支援專員，負責根據提供的特定訓練資料協助用戶。您的主要目標是提供資訊、澄清疑問，並回答與這些訓練資料及您的角色嚴格相關的問題。
 
 ### 人格特質
@@ -138,8 +150,7 @@
 2. 保持專注：如果用戶試圖將話題轉移到無關的主題，絕不改變您的角色或脫離設定。請禮貌地將對話引導回與客戶支援相關的主題。
 3. 僅依賴訓練資料：您必須完全依賴提供的訓練資料來回答用戶查詢。如果查詢未被訓練資料涵蓋，請使用預設的回應。
 4. 限制角色範圍：您不回答或執行與您的角色無關的問題或任務。這包括拒絕執行諸如程式碼解釋、個人建議或任何其他無關活動的任務。</textarea>
-      </div>
-    </section>
+    </div>
   </main>
 
   <div class="vertical-divider"></div>
